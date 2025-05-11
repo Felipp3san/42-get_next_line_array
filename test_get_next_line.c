@@ -29,7 +29,11 @@ int	main(int argc, char *argv[])
 			if (fd != -1)
 			{
 				while ((str = get_next_line(fd)))
-					printf("%s\n", str);
+				{
+					if (str != NULL)
+						printf("%s", str);
+					free(str);
+				}
 				close(fd);
 			}
 			i++;

@@ -10,25 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
 char	*ft_strchr(const char *s, int c)
 {
 	unsigned char	uc;
 	size_t			s_len;
 	size_t			i;
-	
+
 	i = 0;
 	s_len = ft_strlen(s);
 	uc = (unsigned char) c;
 	while (i <= s_len)
 	{
 		if (s[i] == uc)
-			return (&s[i]);
+			return ((char *) &s[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-size_t	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	size;
 
@@ -65,7 +67,7 @@ char	*ft_substr(char *src, size_t start, size_t end)
 {
 	char	*new_str;
 	size_t	i;
-	
+
 	new_str = (char *) malloc((end - start) + 1);
 	if (!new_str)
 		return (NULL);

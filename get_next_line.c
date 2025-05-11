@@ -12,32 +12,57 @@
 
 #include "get_next_line.h"
 
-char	*store_buffer(char *stash, char *buffer)
+void	store_buffer(char **stash, char *buffer)
 {
-	if (!stash)
+	char	*temp;
+
+	if (!(*stash))
 	{
-		stash = (char *) malloc(1);
-		*stash = '\0';
+		*stash = (char *) malloc(1);
+		**stash = '\0';
 	}
-	return (ft_strjoin(stash, buffer));
+	temp = *stash;
+	*stash = ft_strjoin(*stash, buffer);
+	free(temp);
 }
 
-char	*extract_line(char *stash)
+void	trim_stash(char **stash, size_t start)
+{
+	char	*temp;
+
+	temp = *stash;
+	*stash = ft_substr(*stash, start, ft_strlen(*stash));
+	free(temp);
+}
+
+char	*extract_line(char **stash)
 {
 	char	*str;
 	size_t	end;
 
-	if (!stash)
+	if (!(*stash))
 		return (NULL);
 	end = 0;
-	while (stash[end] != '\0')
+	while ((*stash)[end] != '\0')
 	{
 		end++;
-		if (stash[end - 1] == '\n')
-			break;
+		if ((*stash)[end - 1] == '\n')
+			break ;
 	}
-	str = ft_substr(stash, 0, end);
+	if (end == 0)
+	{
+		free(*stash);
+		return (NULL);
+	}
+	str = ft_substr(*stash, 0, end);
+	trim_stash(stash, end);
 	return (str);
+}
+
+void	free_all(char *stash, char *buffer)
+{
+	free(stash);
+	free(buffer);
 }
 
 char	*get_next_line(int fd)
@@ -50,23 +75,20 @@ char	*get_next_line(int fd)
 	buffer = (char *) malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
+	*buffer = '\0';
 	read_bytes = 1;
-	while (read_bytes && ft_strchr(buffer, '\n'))
+	while (read_bytes && !ft_strchr(buffer, '\n'))
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
-		{
-			free(buffer);
-			free(stash);
-			return (NULL);
-		}
+			return (free_all(buffer, stash), NULL);
 		if (read_bytes > 0)
 		{
 			buffer[read_bytes] = '\0';
-			stash = store_buffer(stash, buffer);
+			store_buffer(&stash, buffer);
 		}
 	}
 	free(buffer);
-	line = extract_line(stash);
+	line = extract_line(&stash);
 	return (line);
 }
