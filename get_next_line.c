@@ -92,6 +92,7 @@ char	*get_next_line(int fd)
 		}
 	}
 	free(buffer);
+	buffer = NULL;
 	if (stash)
 		return (extract_line(&stash));
 	else
