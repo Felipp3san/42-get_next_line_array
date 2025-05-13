@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 21:10:37 by fde-alme          #+#    #+#             */
-/*   Updated: 2025/05/08 23:10:31 by fde-alme         ###   ########.fr       */
+/*                                                +#+#+#+#+#+   +#+           */ /*   Created: 2025/05/13 12:32:07 by fde-alme          #+#    #+#             */
+/*   Updated: 2025/05/13 12:33:07 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 2 
+# endif
+
+# ifndef MAX_FD
+#  define MAX_FD 65535
 # endif
 
 char	*get_next_line(int fd);
